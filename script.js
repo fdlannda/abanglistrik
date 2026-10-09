@@ -27,6 +27,41 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
+const rotatingNotes = {
+  top: [
+    ["24/7", "Siap membantu<br />kapan saja"],
+    ["20+", "Tahun pengalaman<br />di bidang listrik"],
+    ["Jabodetabek", "Siap datang<br />ke lokasi Anda"],
+  ],
+  bottom: [
+    ["Garansi pekerjaan", "Beres dengan tenang"],
+    ["Harga bersahabat", "Konsultasi dulu<br />via WhatsApp"],
+    ["Pengerjaan rapi", "Aman untuk<br />jangka panjang"],
+    ["Teknisi tepercaya", "Solusi listrik<br />untuk rumah & usaha"],
+  ],
+};
+
+Object.entries(rotatingNotes).forEach(([position, messages]) => {
+  const note = document.querySelector(`[data-rotating-note="${position}"]`);
+  if (!note || messages.length < 2) return;
+
+  let index = 0;
+  const changeMessage = () => {
+    index = (index + 1) % messages.length;
+    note.classList.add("is-changing");
+    window.setTimeout(() => {
+      const [heading, detail] = messages[index];
+      const headingElement = note.querySelector("strong");
+      const detailElement = note.querySelector("span:not(.check-icon)");
+      headingElement.innerHTML = heading;
+      detailElement.innerHTML = detail;
+      note.classList.remove("is-changing");
+    }, 220);
+  };
+
+  window.setInterval(changeMessage, position === "top" ? 4200 : 5000);
+});
+
 const galleryTrack = document.querySelector(".gallery-track");
 const gallerySlides = [...document.querySelectorAll(".gallery-track figure")];
 const galleryDots = document.querySelector(".gallery-dots");
