@@ -4,13 +4,33 @@ const navLinks = document.querySelector(".nav-links");
 menuToggle?.addEventListener("click", () => {
   const isOpen = navLinks.classList.toggle("open");
   menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.setAttribute("aria-label", isOpen ? "Tutup menu" : "Buka menu");
 });
 
 navLinks?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
     navLinks.classList.remove("open");
     menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Buka menu");
   });
+});
+
+document.addEventListener("click", (event) => {
+  if (!navLinks?.classList.contains("open") || !menuToggle) return;
+  const target = event.target;
+  if (target instanceof Node && !navLinks.contains(target) && !menuToggle.contains(target)) {
+    navLinks.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Buka menu");
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !navLinks?.classList.contains("open")) return;
+  navLinks.classList.remove("open");
+  menuToggle?.setAttribute("aria-expanded", "false");
+  menuToggle?.setAttribute("aria-label", "Buka menu");
+  menuToggle?.focus();
 });
 
 const revealObserver = new IntersectionObserver(
@@ -83,7 +103,11 @@ if (galleryTrack && gallerySlides.length && galleryDots) {
     galleryIndex = Math.min(galleryIndex, getMaxIndex());
     galleryTrack.style.transform = `translateX(-${galleryIndex * getSlideStep()}px)`;
     const activePage = Math.floor(galleryIndex / getVisibleSlides());
-    dots.forEach((dot, index) => dot.classList.toggle("active", index === activePage));
+    dots.forEach((dot, index) => {
+      const isActive = index === activePage;
+      dot.classList.toggle("active", isActive);
+      dot.setAttribute("aria-current", String(isActive));
+    });
   };
 
   const rebuildDots = () => {
@@ -93,6 +117,7 @@ if (galleryTrack && gallerySlides.length && galleryDots) {
       dot.className = "gallery-dot";
       dot.type = "button";
       dot.setAttribute("aria-label", `Lihat halaman galeri ${index + 1}`);
+      dot.setAttribute("aria-current", index === 0 ? "true" : "false");
       dot.addEventListener("click", () => {
         galleryIndex = Math.min(index * getVisibleSlides(), getMaxIndex());
         updateGallery();
@@ -130,15 +155,32 @@ if (galleryTrack && gallerySlides.length && galleryDots) {
   rebuildDots();
   updateGallery();
 
-  let autoPlay = setInterval(() => {
+  let autoPlay;
+  const advanceGallery = () => {
     galleryIndex = galleryIndex >= getMaxIndex() ? 0 : galleryIndex + 1;
     updateGallery();
-  }, 4500);
-  galleryTrack.parentElement.addEventListener("mouseenter", () => clearInterval(autoPlay));
-  galleryTrack.parentElement.addEventListener("mouseleave", () => {
+  };
+  const stopAutoPlay = () => {
+    window.clearInterval(autoPlay);
+    autoPlay = undefined;
+  };
+  const startAutoPlay = () => {
+    if (reducedMotion.matches || autoPlay || gallerySlides.length <= getVisibleSlides()) return;
     autoPlay = setInterval(() => {
-      galleryIndex = galleryIndex >= getMaxIndex() ? 0 : galleryIndex + 1;
-      updateGallery();
+      advanceGallery();
     }, 4500);
+  };
+  const galleryContainer = galleryTrack.parentElement;
+  galleryContainer.addEventListener("mouseenter", stopAutoPlay);
+  galleryContainer.addEventListener("mouseleave", startAutoPlay);
+  galleryContainer.addEventListener("focusin", stopAutoPlay);
+  galleryContainer.addEventListener("focusout", (event) => {
+    if (!galleryContainer.contains(event.relatedTarget)) startAutoPlay();
   });
+  galleryContainer.addEventListener("touchstart", stopAutoPlay, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopAutoPlay();
+    else startAutoPlay();
+  });
+  startAutoPlay();
 }
