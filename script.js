@@ -41,9 +41,11 @@ const rotatingNotes = {
   ],
 };
 
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
 Object.entries(rotatingNotes).forEach(([position, messages]) => {
   const note = document.querySelector(`[data-rotating-note="${position}"]`);
-  if (!note || messages.length < 2) return;
+  if (!note || messages.length < 2 || reducedMotion.matches) return;
 
   let index = 0;
   const changeMessage = () => {
@@ -52,7 +54,8 @@ Object.entries(rotatingNotes).forEach(([position, messages]) => {
     window.setTimeout(() => {
       const [heading, detail] = messages[index];
       const headingElement = note.querySelector("strong");
-      const detailElement = note.querySelector("span:not(.check-icon)");
+      const detailElement = note.querySelector(".note-detail");
+      if (!headingElement || !detailElement) return;
       headingElement.innerHTML = heading;
       detailElement.innerHTML = detail;
       note.classList.remove("is-changing");

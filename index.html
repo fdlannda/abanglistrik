@@ -8,7 +8,15 @@
       content="AbangListrik melayani perbaikan, instalasi, pemeriksaan, dan perawatan listrik 24 jam di wilayah Jabodetabek."
     />
     <meta name="theme-color" content="#071a3d" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AbangListrik — Panggil Abangnya, Beres Listriknya!" />
+    <meta property="og:description" content="Solusi perbaikan, instalasi, dan perawatan listrik 24 jam di Jabodetabek. Berpengalaman 20+ tahun." />
+    <meta property="og:image" content="img/logo1.png" />
+    <meta property="og:locale" content="id_ID" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>AbangListrik — Panggil Abangnya, Beres Listriknya!</title>
+    <link rel="icon" type="image/png" href="img/logo1.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,6 +26,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#konten-utama">Lewati ke konten utama</a>
     <header class="site-header" id="beranda">
       <nav class="container nav" aria-label="Navigasi utama">
         <a class="brand" href="#beranda" aria-label="AbangListrik, halaman utama">
@@ -39,7 +48,7 @@
       </nav>
     </header>
 
-    <main>
+    <main id="konten-utama">
       <section class="hero">
         <div class="hero-grid"></div>
         <div class="container hero-content">
@@ -66,8 +75,8 @@
               <img src="img/logo1.png" alt="Teknisi AbangListrik" />
               <div class="card-label"><span class="status-dot"></span> Teknisi siap berangkat</div>
             </div>
-            <div class="floating-note note-top" data-rotating-note="top"><strong>24/7</strong><span>Siap membantu<br />kapan saja</span></div>
-            <div class="floating-note note-bottom" data-rotating-note="bottom"><span class="check-icon">✓</span><span><strong>Garansi pekerjaan</strong><br />Beres dengan tenang</span></div>
+            <div class="floating-note note-top" data-rotating-note="top" aria-live="polite"><strong>24/7</strong><span class="note-detail">Siap membantu<br />kapan saja</span></div>
+            <div class="floating-note note-bottom" data-rotating-note="bottom" aria-live="polite"><span class="check-icon" aria-hidden="true">✓</span><span class="note-detail"><strong>Garansi pekerjaan</strong><br />Beres dengan tenang</span></div>
           </div>
         </div>
         <div class="hero-bottom container">
@@ -92,13 +101,13 @@
           </div>
           <div class="services-grid">
             <article class="service-card service-featured reveal">
-              <div class="service-number">01</div><div class="service-icon">⌁</div>
+              <div class="service-number">01</div><div class="service-icon" aria-hidden="true">⚡</div>
               <h3>Perbaikan Listrik</h3><p>Atasi listrik mati, korsleting, MCB turun, dan berbagai gangguan kelistrikan lainnya.</p>
               <a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20butuh%20bantuan%20perbaikan%20listrik." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a>
             </article>
-            <article class="service-card reveal reveal-delay"><div class="service-number">02</div><div class="service-icon">⌗</div><h3>Instalasi Listrik</h3><p>Instalasi baru, penambahan titik lampu, stop kontak, panel, dan jaringan listrik.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20konsultasi%20instalasi%20listrik." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
-            <article class="service-card reveal reveal-delay-2"><div class="service-number">03</div><div class="service-icon">◌</div><h3>Panel & Gardu</h3><p>Pemasangan, perapihan, dan pemeriksaan panel listrik serta kebutuhan gardu.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20konsultasi%20panel%20atau%20gardu." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
-            <article class="service-card reveal"><div class="service-number">04</div><div class="service-icon">↻</div><h3>Perawatan & Inspeksi</h3><p>Pemeriksaan berkala untuk menjaga instalasi tetap aman, rapi, dan berfungsi optimal.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20menjadwalkan%20inspeksi%20listrik." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
+            <article class="service-card reveal reveal-delay"><div class="service-number">02</div><div class="service-icon" aria-hidden="true">⌗</div><h3>Instalasi Listrik</h3><p>Instalasi baru, penambahan titik lampu, stop kontak, panel, dan jaringan listrik.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20konsultasi%20instalasi%20listrik." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
+            <article class="service-card reveal reveal-delay-2"><div class="service-number">03</div><div class="service-icon" aria-hidden="true">◌</div><h3>Panel & Gardu</h3><p>Pemasangan, perapihan, dan pemeriksaan panel listrik serta kebutuhan gardu.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20konsultasi%20panel%20atau%20gardu." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
+            <article class="service-card reveal"><div class="service-number">04</div><div class="service-icon" aria-hidden="true">↻</div><h3>Perawatan & Inspeksi</h3><p>Pemeriksaan berkala untuk menjaga instalasi tetap aman, rapi, dan berfungsi optimal.</p><a href="https://wa.me/6281316612530?text=Halo%20AbangListrik%2C%20saya%20ingin%20menjadwalkan%20inspeksi%20listrik." target="_blank" rel="noreferrer">Tanya sekarang <span>↗</span></a></article>
           </div>
         </div>
       </section>
@@ -184,5 +193,19 @@
       <span>Chat WhatsApp</span>
     </a>
     <script src="script.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Electrician",
+        "name": "AbangListrik",
+        "description": "Jasa perbaikan, instalasi, pemeriksaan, dan perawatan listrik berpengalaman 20+ tahun.",
+        "telephone": "+6281316612530",
+        "areaServed": "Jabodetabek",
+        "openingHours": "Mo-Su 00:00-23:59",
+        "image": "img/logo1.png",
+        "priceRange": "$$",
+        "serviceType": ["Perbaikan listrik", "Instalasi listrik", "Perawatan listrik", "Panel dan gardu"]
+      }
+    </script>
   </body>
 </html>
