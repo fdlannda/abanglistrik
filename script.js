@@ -47,6 +47,27 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
+const ratingStars = [...document.querySelectorAll(".rating-star")];
+const ratingStatus = document.querySelector(".rating-status");
+const ratingSubmit = document.querySelector(".rating-submit");
+let selectedRating = 0;
+
+ratingStars.forEach((star) => {
+  star.addEventListener("click", () => {
+    selectedRating = Number(star.dataset.rating);
+    ratingStars.forEach((item) => {
+      const isSelected = Number(item.dataset.rating) <= selectedRating;
+      item.classList.toggle("selected", isSelected);
+      item.setAttribute("aria-pressed", String(isSelected));
+    });
+    if (ratingStatus) ratingStatus.textContent = `Rating ${selectedRating}/5 dipilih`;
+    if (ratingSubmit) {
+      const message = `Halo AbangListrik, saya ingin memberikan rating ${selectedRating}/5 untuk layanan yang saya terima.`;
+      ratingSubmit.href = `https://wa.me/6281316612530?text=${encodeURIComponent(message)}`;
+    }
+  });
+});
+
 const rotatingNotes = {
   top: [
     ["24/7", "Siap membantu<br />kapan saja"],
