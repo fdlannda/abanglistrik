@@ -184,3 +184,76 @@ if (galleryTrack && gallerySlides.length && galleryDots) {
   });
   startAutoPlay();
 }
+
+const reviewsTrack = document.querySelector(".reviews-grid");
+const reviewSlides = [...document.querySelectorAll(".review-card")];
+const reviewsDots = document.querySelector(".reviews-dots");
+const reviewsPrevious = document.querySelector(".reviews-prev");
+const reviewsNext = document.querySelector(".reviews-next");
+const reviewsViewport = document.querySelector(".reviews-viewport");
+let reviewIndex = 0;
+
+if (reviewsTrack && reviewSlides.length && reviewsDots && reviewsViewport) {
+  const getVisibleReviews = () => (window.innerWidth <= 640 ? 1 : window.innerWidth <= 900 ? 2 : 3);
+  const getReviewStep = () => reviewSlides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(reviewsTrack).gap);
+  const getMaxReviewIndex = () => Math.max(0, reviewSlides.length - getVisibleReviews());
+  const getReviewPageCount = () => Math.ceil(reviewSlides.length / getVisibleReviews());
+  let dots = [];
+
+  const updateReviews = () => {
+    reviewIndex = Math.min(reviewIndex, getMaxReviewIndex());
+    reviewsTrack.style.transform = `translateX(-${reviewIndex * getReviewStep()}px)`;
+    const activePage = Math.floor(reviewIndex / getVisibleReviews());
+    dots.forEach((dot, index) => {
+      const active = index === activePage;
+      dot.classList.toggle("active", active);
+      dot.setAttribute("aria-current", String(active));
+    });
+  };
+
+  const rebuildReviewDots = () => {
+    reviewsDots.replaceChildren();
+    dots = Array.from({ length: getReviewPageCount() }, (_, index) => {
+      const dot = document.createElement("button");
+      dot.className = "reviews-dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Lihat halaman ulasan ${index + 1}`);
+      dot.setAttribute("aria-current", index === 0 ? "true" : "false");
+      dot.addEventListener("click", () => {
+        reviewIndex = Math.min(index * getVisibleReviews(), getMaxReviewIndex());
+        updateReviews();
+      });
+      reviewsDots.append(dot);
+      return dot;
+    });
+  };
+
+  reviewsPrevious.addEventListener("click", () => {
+    reviewIndex = reviewIndex <= 0 ? getMaxReviewIndex() : reviewIndex - 1;
+    updateReviews();
+  });
+  reviewsNext.addEventListener("click", () => {
+    reviewIndex = reviewIndex >= getMaxReviewIndex() ? 0 : reviewIndex + 1;
+    updateReviews();
+  });
+
+  let touchStartX = 0;
+  reviewsViewport.addEventListener("touchstart", (event) => {
+    touchStartX = event.touches[0].clientX;
+  }, { passive: true });
+  reviewsViewport.addEventListener("touchend", (event) => {
+    const distance = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(distance) > 45) {
+      reviewIndex = distance < 0
+        ? (reviewIndex >= getMaxReviewIndex() ? 0 : reviewIndex + 1)
+        : (reviewIndex <= 0 ? getMaxReviewIndex() : reviewIndex - 1);
+      updateReviews();
+    }
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    rebuildReviewDots();
+    updateReviews();
+  });
+  rebuildReviewDots();
+  updateReviews();
+}
